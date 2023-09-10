@@ -39,8 +39,8 @@
     "num_return_sequences": 3,      
 	
 	"T5_type": "large",
-    "T5_path": {"base": "./model/pre-trained/T5-base",
-	            "large": "./model/pre-trained/T5-large"},       
+    "T5_path": {"base": "t5-base",
+	            "large": "t5-large"},       
     
     "data_path": {
 		"train": "./data/afin/train.jsonl",
