@@ -7,7 +7,7 @@
 	
 	
 	"with_weak_labels": true,
-	"large_afin_path": "./data/large_afin/large-afin.jsonl",
+	"large_afin_path": "/data/large_afin/large-afin.jsonl",
 	"blended_training": true,
 	"blended_start_epoch": 2, 
 	"blended_end_epoch": 7, 
