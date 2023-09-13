@@ -29,6 +29,9 @@ class AFINDataset(Dataset):
         target_mask = self.targets[index]["attention_mask"].squeeze() 
 
         ids = self.ids[index]
+        while len(ids) < self.target_len:
+            ids.append('N/A')
+
 
         return {"source_ids": source_ids, 
                 "source_mask": src_mask, 
