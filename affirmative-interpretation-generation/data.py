@@ -30,7 +30,7 @@ class AFINDataset(Dataset):
 
         ids = self.ids[index]
         while len(ids) < self.target_len:
-            ids.append('N/A')
+            ids.append(1111111)
 
 
         return {"source_ids": source_ids, 
