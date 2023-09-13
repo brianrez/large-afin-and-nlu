@@ -85,7 +85,7 @@ model = AFINGenerator(params, device, tokenizer)
 model.to(device)  
 print("Model is successfully loaded!")
 # state = dict(model=model.state_dict())
-model.load_state_dict(torch.load(params.best_model_path))
+model.load_state_dict(torch.load(params.best_model_path)['model'])
 
 
 # Step 4: Prepare the datasets for data loader -------------------------------------------------
