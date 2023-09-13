@@ -14,6 +14,7 @@ class AFINDataset(Dataset):
     
         self.inputs = []
         self.targets = []
+        self.ids = []
 
         self._process(data_list)
   
@@ -25,12 +26,16 @@ class AFINDataset(Dataset):
         target_ids = self.targets[index]["input_ids"].squeeze()
 
         src_mask    = self.inputs[index]["attention_mask"].squeeze()  
-        target_mask = self.targets[index]["attention_mask"].squeeze()  
+        target_mask = self.targets[index]["attention_mask"].squeeze() 
+
+        ids = self.ids[index]
 
         return {"source_ids": source_ids, 
                 "source_mask": src_mask, 
                 "target_ids": target_ids, 
-                "target_mask": target_mask}
+                "target_mask": target_mask,
+                "ids": ids
+                }
 
     def _process(self, data_list):
         for data_dict in data_list:                    
@@ -51,7 +56,8 @@ class AFINDataset(Dataset):
             ) 
     
             self.inputs.append(tokenized_inputs)
-            self.targets.append(tokenized_targets)            
+            self.targets.append(tokenized_targets)
+            self.ids.append(data_dict["ids"])     
             
 
 class NewDataset(Dataset):

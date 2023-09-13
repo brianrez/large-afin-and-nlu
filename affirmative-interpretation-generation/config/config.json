@@ -25,7 +25,7 @@
 	"epochs_no_eval": 0, 
 	"patience": 5,
     "batch_size": 8,
-	"is_model_tuning": true,
+	"is_model_tuning": false, 
 	
     "input_len": 80,
     "target_len": 50,
@@ -44,7 +44,7 @@
     
     "data_path": {
 		"train": "./data/afin/train.jsonl",
-		"dev": "./data/afin/dev.jsonl",
+		"dev": "./data/condaqa/train_uniques.jsonl",
 		"test": "./data/afin/test.jsonl"
 	},
     "output_path": {
