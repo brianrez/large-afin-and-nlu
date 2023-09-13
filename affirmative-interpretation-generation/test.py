@@ -225,9 +225,7 @@ for batch_idx, batch in enumerate(dev_loader):
         dev_batch_output = model.module.predict(batch)
     else:
         dev_batch_output = model.predict(batch)
-    print(len(batch['source_ids']))
     dev_output.extend(dev_batch_output)  
-    print(len(dev_output))
     # dev_ids.append(batch["ids"])
 
 dev_output = [output.strip() for output in dev_output]

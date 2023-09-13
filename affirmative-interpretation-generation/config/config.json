@@ -36,7 +36,7 @@
     "top_k": 50,
     "top_p": 0.95,
     "repetition_penalty": 2.5,
-    "num_return_sequences": 3,      
+    "num_return_sequences": 1,      
 	
 	"T5_type": "large",
     "T5_path": {"base": "t5-base",
@@ -44,7 +44,7 @@
     
     "data_path": {
 		"train": "./data/afin/train.jsonl",
-		"dev": "./data/condaqa/train_uniques.jsonl",
+		"dev": "./data/condaqa/val_uniques.jsonl",
 		"test": "./data/afin/test.jsonl"
 	},
     "output_path": {
