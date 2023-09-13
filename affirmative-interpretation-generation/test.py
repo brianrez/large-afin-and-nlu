@@ -235,7 +235,7 @@ final_output = [dev_output, dev_ids]
 import pickle
 # step -test: write the predicted results
 with open("./outputs_conda/test.pkl", 'wb') as f:
-    pickle.dump(dev_output, f)
+    pickle.dump(final_output, f)
 
 '''
 if not params.is_model_tuning: 
