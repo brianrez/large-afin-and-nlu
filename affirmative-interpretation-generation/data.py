@@ -27,17 +27,17 @@ class AFINDataset(Dataset):
 
         src_mask    = self.inputs[index]["attention_mask"].squeeze()  
         target_mask = self.targets[index]["attention_mask"].squeeze() 
-
+        '''
         ids = self.ids[index]
         while len(ids) < self.target_len:
             ids.append(1111111)
-
+        '''
 
         return {"source_ids": source_ids, 
                 "source_mask": src_mask, 
                 "target_ids": target_ids, 
                 "target_mask": target_mask,
-                "ids": ids
+                # "ids": ids
                 }
 
     def _process(self, data_list):

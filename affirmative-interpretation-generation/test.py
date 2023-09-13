@@ -225,17 +225,18 @@ for batch_idx, batch in enumerate(dev_loader):
         dev_batch_output = model.module.predict(batch)
     else:
         dev_batch_output = model.predict(batch)
-
+    print(len(batch['source_ids']))
     dev_output.extend(dev_batch_output)  
-    dev_ids.append(batch["ids"])
+    print(len(dev_output))
+    # dev_ids.append(batch["ids"])
 
 dev_output = [output.strip() for output in dev_output]
-final_output = [dev_output, dev_ids]
+# final_output = [dev_output, dev_ids]
 
 import pickle
 # step -test: write the predicted results
-with open("./outputs_conda/train.pkl", 'wb') as f:
-    pickle.dump(final_output, f)
+with open("./outputs_conda/val.pkl", 'wb') as f:
+    pickle.dump(dev_output, f)
 
 '''
 if not params.is_model_tuning: 
