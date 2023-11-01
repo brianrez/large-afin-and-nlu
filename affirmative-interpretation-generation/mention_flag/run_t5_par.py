@@ -43,14 +43,14 @@ with open("./negations.pkl", "rb") as F:
 
 from random import shuffle
 def paraphraser(file_path, save_path, key):
-    
+    print(f"Paraphrasing {file_path} to {save_path}")
     with open(file_path) as f:
         all_sentences = [json.loads(line) for line in f.readlines()]
 
     additional_sentences = []
 
     didnt_work = []
-
+    index = 0
     for row in all_sentences:
         sentence = row["sentence"]
         par = paraphrase(sentence)
@@ -64,10 +64,13 @@ def paraphraser(file_path, save_path, key):
             additional_sentences.append(row)
         else:
             didnt_work.append(row)
-    
+        index += 1
+        print(f"{index}/{len(all_sentences)}", end="\r")
+    print("finished first pass, starting second pass")
     for row in didnt_work:
         sentence = row["sentence"]
         pars = paraphrase(sentence, num_return_sequences=5)
+        index = 0
         for par in pars:
             negated = False
             for cue in NEG_CUES:
@@ -78,6 +81,8 @@ def paraphraser(file_path, save_path, key):
                 row[key] = par
                 additional_sentences.append(row)
                 break
+            index += 1
+            print(f"{index}/{len(pars)}", end="\r")
 
     new_all = all_sentences + additional_sentences
     shuffle(new_all)
@@ -85,6 +90,8 @@ def paraphraser(file_path, save_path, key):
     with open(save_path, "w") as f:
         for row in new_all:
             f.write(json.dumps(row) + "\n")
+
+    print(f"Paraphrased {file_path} to {save_path}")
         
 paraphraser("./data/afin/train.jsonl", "./data/afin/train-extra.jsonl", "pi")
 paraphraser("./data/afin/test.jsonl", "./data/afin/test-extra.jsonl", "pi")
