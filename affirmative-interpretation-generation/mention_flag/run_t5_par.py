@@ -93,9 +93,9 @@ def paraphraser(file_path, save_path, key):
 
     print(f"Paraphrased {file_path} to {save_path}")
         
-paraphraser("./data/afin/train.jsonl", "./data/afin/train-extra.jsonl", "pi")
-paraphraser("./data/afin/test.jsonl", "./data/afin/test-extra.jsonl", "pi")
-paraphraser("./data/afin/val.jsonl", "./data/afin/val-extra.jsonl", "pi")
+# paraphraser("./data/afin/train.jsonl", "./data/afin/train-extra.jsonl", "pi")
+# paraphraser("./data/afin/test.jsonl", "./data/afin/test-extra.jsonl", "pi")
+paraphraser("./data/afin/dev.jsonl", "./data/afin/dev-extra.jsonl", "pi")
 
 paraphraser("./data/large-afin/large-afin.jsonl", "./data/large-afin/large-afin-extra.jsonl", "affirmative_interpretation")
 
