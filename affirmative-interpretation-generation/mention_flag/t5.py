@@ -1915,13 +1915,17 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
             # print("decoder_history_input_ids", decoder_history_input_ids[0])
             # print(decoder_original_input_ids[0])
             # print(len(all_negations))
-            decoder_mention_flag = torch.zeros(
-                 (decoder_history_input_ids.shape[0], decoder_input_ids.shape[1], decoder_original_input_ids.shape[1]), #decoder_history_input_ids.shape[1]),
-                 dtype=torch.long,
-              )
-
-            # decoder_mention_flag = mention_flag(decoder_original_input_ids, decoder_history_input_ids, original_cues, all_negations)
-
+            # decoder_mention_flag = torch.zeros(
+            #      (decoder_history_input_ids.shape[0], decoder_input_ids.shape[1], decoder_original_input_ids.shape[1]), #decoder_history_input_ids.shape[1]),
+            #      dtype=torch.long,
+            #   )
+            # print("")
+            # print("number", decoder_input_ids.shape[1])
+            decoder_mention_flag = mention_flag(decoder_original_input_ids, decoder_input_ids, original_cues, all_negations)
+            decoder_mention_flag = decoder_mention_flag.to(decoder_input_ids.device)
+            assert decoder_mention_flag.shape == (decoder_history_input_ids.shape[0], decoder_input_ids.shape[1], decoder_original_input_ids.shape[1]), \
+                 f"decoder_mention_flag shape is not right {decoder_mention_flag.shape} where it should be {(decoder_history_input_ids.shape[0], decoder_input_ids.shape[1], decoder_original_input_ids.shape[1])}"
+            # print("passed assertion once!")
         # Decode
         decoder_outputs = self.decoder(
             input_ids=decoder_input_ids,

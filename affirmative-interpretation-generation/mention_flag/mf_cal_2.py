@@ -13,12 +13,15 @@ def mention_flag(
 
     @return mention_flag_matrix: [batch_size, decoerer_ids_len, input_ids_len]
     """
+    decoder_ids_len_ = decoder_input_ids.shape[1]
+    # print("entered mention_flag")
+    # print("decoder_ids_len_:", decoder_ids_len_)
     # print(input_ids.shape)
     # print(original_cue_)
     batch_size, input_ids_len = input_ids.shape
     _, decoder_ids_len = decoder_input_ids.shape
 
-    mention_flag_matrix = torch.zeros((batch_size, decoder_ids_len, input_ids_len))
+    mention_flag_matrix = torch.zeros((batch_size, decoder_ids_len, input_ids_len), dtype=torch.long)
 
     for i in range(batch_size):
         original_cue = original_cue_[i]
@@ -68,7 +71,8 @@ def mention_flag(
                     for m in range(len(original_cue)):
                         mention_flag_matrix[i, j-l, k-m] = 1
                         # print(f"mention_flag_matrix[{i}, {j-l}, {k-m}  ]:", mention_flag_matrix[i, j-l, k-m])
-
+    # print("decoder_ids_len:", decoder_ids_len)
+    # print("finished mention_flag_matrix")
     return mention_flag_matrix
 
 
