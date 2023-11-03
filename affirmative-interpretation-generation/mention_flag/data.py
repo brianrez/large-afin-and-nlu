@@ -47,8 +47,8 @@ class AFINDataset(Dataset):
         not_found = 0
         not_found_index = []
         # for data_dict in data_list[:10]:
-        # for i in range(len(data_list)):
-        for i in range(10):
+        for i in range(len(data_list)):
+        # for i in range(10):
             data_dict = data_list[i]
             input_ = "sentence: {}".format(data_dict["sentence"].strip())                
             # input_ = input_ + "neg cues:"
