@@ -24,7 +24,7 @@ import torch
 from torch import LongTensor, nn
 from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
 from torch.utils.checkpoint import checkpoint
-
+from mf_cal_2 import mention_flag
 from transformers.activations import ACT2FN
 from transformers.file_utils import ModelOutput
 from transformers.modeling_outputs import (
@@ -104,6 +104,8 @@ class Seq2SeqLMOutputMF(ModelOutput):
     encoder_attentions: Optional[Tuple[torch.FloatTensor]] = None
     decoder_mention_flags: Optional[Tuple[torch.LongTensor]] = None
     decoder_original_input_ids: Optional[Tuple[torch.LongTensor]] = None
+    original_cues: Optional[list] = None
+    all_negations: Optional[list] = None
 
 
 ####################################################
@@ -1799,6 +1801,8 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
         decoder_copy_mention_flag=None,
         decoder_history_input_ids=None,
         decoder_original_input_ids=None,
+        all_negations: list = [],
+        original_cues: list = [],
     ) -> Union[Tuple[torch.FloatTensor], Seq2SeqLMOutput]:
         r"""
         labels (`torch.LongTensor` of shape `(batch_size,)`, *optional*):
@@ -1901,24 +1905,22 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
         # print(input_ids[0])
         # print("-" * 25)
         if input_ids is not None:
-            decoder_mention_flag = torch.zeros(
-                (input_ids.shape[0], decoder_input_ids.shape[1], input_ids.shape[1]),
-                dtype=torch.long,
-            )
-            print("decoder_mention_flag", decoder_mention_flag.shape)
+            decoder_mention_flag = decoder_copy_mention_flag
         else :
             # print("decoder_history_input_ids", decoder_history_input_ids.shape)
             # print("decoder_history_input_ids", decoder_history_input_ids[0])
             # print("decoder_input_ids", decoder_input_ids.shape)
             # print("-" * 25)
-            print("decoder_history_input_ids", decoder_original_input_ids.shape)
-            print("decoder_history_input_ids", decoder_history_input_ids[0])
-            
+            # print("decoder_history_input_ids", decoder_original_input_ids.shape)
+            # print("decoder_history_input_ids", decoder_history_input_ids[0])
+            # print(decoder_original_input_ids[0])
+            # print(len(all_negations))
             decoder_mention_flag = torch.zeros(
-                (decoder_history_input_ids.shape[0], decoder_input_ids.shape[1], 80), #decoder_history_input_ids.shape[1]),
-                dtype=torch.long,
-            )
-        # decoder_mention_flag = decoder_mention_flag.unsqueeze(1)
+                 (decoder_history_input_ids.shape[0], decoder_input_ids.shape[1], decoder_original_input_ids.shape[1]), #decoder_history_input_ids.shape[1]),
+                 dtype=torch.long,
+              )
+
+            # decoder_mention_flag = mention_flag(decoder_original_input_ids, decoder_history_input_ids, original_cues, all_negations)
 
         # Decode
         decoder_outputs = self.decoder(
@@ -1978,6 +1980,8 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
             encoder_attentions=encoder_outputs.attentions,
             decoder_mention_flags=decoder_mention_flag,
             decoder_original_input_ids=decoder_original_input_ids,
+            original_cues=original_cues,
+            all_negations=all_negations,
         )
 
     def prepare_inputs_for_generation(
@@ -1999,7 +2003,7 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
             "decoder_history_input_ids": history_ids,
         }
 
-        for kwarg in ['decoder_copy_pos', 'decoder_concept_cls', 'decoder_mention_flag', 'decoder_copy_mention_flag', 'decoder_cls_on_input', 'encoder_img_mask', 'encoder_obj_feature', 'encoder_obj_box', 'encoder_relative_pos_index', 'decoder_original_input_ids']:
+        for kwarg in ['decoder_copy_pos', 'decoder_concept_cls', 'decoder_mention_flag', 'decoder_copy_mention_flag', 'decoder_cls_on_input', 'encoder_img_mask', 'encoder_obj_feature', 'encoder_obj_box', 'encoder_relative_pos_index', 'decoder_original_input_ids', 'original_cues', 'all_negations']:
             if kwarg in kwargs:
                 generation[kwarg] = kwargs[kwarg]
 
@@ -2023,6 +2027,8 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
         model_kwargs["decoder_mention_flag"] = outputs.decoder_mention_flags
 
         model_kwargs["decoder_original_input_ids"] = outputs.decoder_original_input_ids
+        model_kwargs["original_cues"] = outputs.original_cues
+        model_kwargs["all_negations"] = outputs.all_negations
         # update token_type_ids with last value
         if "token_type_ids" in model_kwargs:
             token_type_ids = model_kwargs["token_type_ids"]
@@ -2081,7 +2087,9 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
             "decoder_copy_mention_flag",
             "decoder_cls_on_input",
             "encoder_img_mask",
-            "decoder_original_input_ids",
+            # "decoder_original_input_ids",
+            # "original_cues",
+            # "all_negations",
         ]:
             if kwarg in model_kwargs:
                 model_kwargs[kwarg] = model_kwargs[kwarg].index_select(

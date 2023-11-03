@@ -1,10 +1,10 @@
 import torch
 # implements three value mention flags definition. Needs more testing, but some debugging has been already done.
-
+from copy import deepcopy
 def mention_flag(
     input_ids: torch.Tensor,
     decoder_input_ids: torch.Tensor,
-    original_cue: list,
+    original_cue_: list,
     list_cues: list,
 ):
     """
@@ -13,13 +13,15 @@ def mention_flag(
 
     @return mention_flag_matrix: [batch_size, decoerer_ids_len, input_ids_len]
     """
-
+    # print(input_ids.shape)
+    # print(original_cue_)
     batch_size, input_ids_len = input_ids.shape
     _, decoder_ids_len = decoder_input_ids.shape
 
     mention_flag_matrix = torch.zeros((batch_size, decoder_ids_len, input_ids_len))
 
     for i in range(batch_size):
+        original_cue = original_cue_[i]
         input_ids_ = input_ids[i].clone().tolist()
         decoder_ids_ = decoder_input_ids[i].clone().tolist()
 
@@ -28,6 +30,8 @@ def mention_flag(
         # k: input index
         index_cue = find_index_sublist(input_ids_, original_cue)
         if index_cue is None:
+            # print(original_cue)
+            # print(input_ids_)
             raise Exception("original cue should be in the input_ids.")
 
         for k in range(input_ids_len):
@@ -56,14 +60,14 @@ def mention_flag(
                         mention_flag_matrix[i, j, k-m] = mention_flag_matrix[i, j-1, k-m]
                     continue
                 len_negation = len(negation_)
-                print("len_negation:", len_negation)
-                print("len(original_cue):", len(original_cue))
-                print("j:", j)
-                print("k:", k)
+                # print("len_negation:", len_negation)
+                # print("len(original_cue):", len(original_cue))
+                # print("j:", j)
+                # print("k:", k)
                 for l in range(len_negation):
                     for m in range(len(original_cue)):
                         mention_flag_matrix[i, j-l, k-m] = 1
-                        print(f"mention_flag_matrix[{i}, {j-l}, {k-m}  ]:", mention_flag_matrix[i, j-l, k-m])
+                        # print(f"mention_flag_matrix[{i}, {j-l}, {k-m}  ]:", mention_flag_matrix[i, j-l, k-m])
 
     return mention_flag_matrix
 
@@ -73,7 +77,7 @@ def find_original(
     neg: list,  # 1d
 ):
     # returns the beginning index of sublist: neg
-    input_ids_ = input_ids.copy()
+    input_ids_ = deepcopy(input_ids)
     neg_ = neg.copy()
     index = 0
     while len(input_ids_) >= len(neg_):
@@ -85,7 +89,8 @@ def find_original(
     return None
 
 def find_neg(first_, negations):
-    first_rev = first_.copy()[::-1]
+    first_rev = deepcopy(first_)[::-1]
+    # first_rev = first_.copy()[::-1]
     for neg_list in negations:
         neg_list_rev = neg_list.copy()[::-1]
         if len(neg_list_rev) > len(first_rev):
@@ -96,8 +101,11 @@ def find_neg(first_, negations):
     return None
 
 def find_neg_lists(first_, second_, negations):
-    first_rev = first_.copy()[::-1]
-    second_rev = second_.copy()[::-1]
+    first_rev = deepcopy(first_)[::-1]
+    second_rev = deepcopy(second_)[::-1]
+
+    # first_rev = first_.copy()[::-1]
+    # second_rev = second_.copy()[::-1]
     list_match = []
     for i in range(len(first_rev)):
         if first_rev[i] == second_rev[i]:
@@ -141,8 +149,11 @@ def find_index_sublist(init_list, sub_list):
     """
     This function is used to find the index of sub_list in init_list.
     """
-    init_list_ = init_list.copy()
-    sub_list_ = sub_list.copy()
+    init_list_ = deepcopy(init_list)
+    sub_list_ = deepcopy(sub_list)
+    
+    # init_list_ = init_list.copy()
+    # sub_list_ = sub_list.copy()
     index = 0
     while len(init_list_) >= len(sub_list_):
         if init_list_[: len(sub_list_)] == sub_list_:
@@ -194,7 +205,7 @@ def pretty_mf_printer(input_ids, decoder_id, mention_flag_matrix):
 
     return None
 
-
+'''
 from transformers import T5Tokenizer
 
 tokenizer = T5Tokenizer.from_pretrained("t5-large")
@@ -216,3 +227,4 @@ pretty_mf_printer(input_id, decoder_id, mentionflag[0])
 
     
 print(find_neg([1, 2, 3, 4, 5, 5, 6], [[1, 2, 3], [4, 5, 6], [6, 7], [5, 6]]))
+'''

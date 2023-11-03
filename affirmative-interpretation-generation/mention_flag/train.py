@@ -18,7 +18,7 @@ from transformers import (
 )
 
 from model import AFINGenerator
-from data import AFINDataset
+from data import AFINDataset, collate_
 from config import Config
 import time
 import utils
@@ -92,6 +92,7 @@ state = dict(model=model.state_dict())
 target_attribute_name = "pi"
 train_data = utils.read_data(params.data_path["train"])
 train_dataset_gold = AFINDataset(tokenizer, train_data, params, target_attribute_name)
+model.set_negations(train_dataset_gold.negation_ids)
 dev_data   = utils.read_data(params.data_path["dev"])
 dev_dataset   = AFINDataset(tokenizer, dev_data, params, target_attribute_name)
 train_size = len(train_dataset_gold)
@@ -147,7 +148,7 @@ for epoch in range(params.max_epoch):
     train_size = len(train_dataset)
     batch_num = int(np.ceil(train_size/params.batch_size))
     progress = tqdm.tqdm(total=batch_num, ncols=75, desc='Train size: {}, Train Epoch {}/{}'.format(train_size, epoch+1, params.max_epoch ))
-    train_loader = DataLoader(train_dataset, batch_size=params.batch_size, shuffle=params.train_shuffle) 
+    train_loader = DataLoader(train_dataset, batch_size=params.batch_size, shuffle=params.train_shuffle, collate_fn=collate_)
     
     for batch_idx, batch in enumerate(train_loader):              
         loss = model(batch)  
@@ -171,7 +172,7 @@ for epoch in range(params.max_epoch):
         dev_output = []
         dev_gold   = []
         
-        dev_loader = DataLoader(dev_dataset, batch_size=params.batch_size, shuffle=False) 
+        dev_loader = DataLoader(dev_dataset, batch_size=params.batch_size, shuffle=False, collate_fn=collate_)
         dev_loss = 0
         for batch_idx, batch in enumerate(dev_loader):                     
             #model.eval()
