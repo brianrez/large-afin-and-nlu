@@ -1962,6 +1962,15 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
             # move labels to correct device to enable PP
             labels = labels.to(lm_logits.device)
             loss = loss_fct(lm_logits.view(-1, lm_logits.size(-1)), labels.view(-1))
+            
+            last_decoded = decoder_mention_flag[:, -1, :]
+            
+            number_of_ones = torch.sum(last_decoded == 1).tolist()
+
+            if number_of_ones > 0:
+                loss_scaled = loss + 1.5
+                loss = loss_scaled
+            
             # TODO(thom): Add z_loss https://github.com/tensorflow/mesh/blob/fa19d69eafc9a482aff0b59ddd96b025c0cb207d/mesh_tensorflow/layers.py#L666
 
         if not return_dict:
