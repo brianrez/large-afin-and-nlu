@@ -90,9 +90,11 @@ state = dict(model=model.state_dict())
 
 # Step 4: Prepare the datasets for data loader -------------------------------------------------
 target_attribute_name = "pi"
+print("loading data from {}".format(params.data_path["train"]))
 train_data = utils.read_data(params.data_path["train"])
 train_dataset_gold = AFINDataset(tokenizer, train_data, params, target_attribute_name)
 model.set_negations(train_dataset_gold.negation_ids)
+print("loading data from {}".format(params.data_path["dev"]))
 dev_data   = utils.read_data(params.data_path["dev"])
 dev_dataset   = AFINDataset(tokenizer, dev_data, params, target_attribute_name)
 train_size = len(train_dataset_gold)
@@ -103,6 +105,7 @@ print("\n dev size: {}".format(dev_size))
 
 # using weak labeled data (large afin corpus)
 if params.with_weak_labels: #wld: weak labeled data
+    print("loading data from {}".format(params.large_afin_path))
     large_afin_data = utils.read_data(params.large_afin_path)
     afin_dataset = AFINDataset(tokenizer, large_afin_data, params)    
     afin_dataset = [afin_dataset[i] for i in range(len(afin_dataset))] 

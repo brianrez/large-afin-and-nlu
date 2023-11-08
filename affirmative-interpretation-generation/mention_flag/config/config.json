@@ -24,7 +24,7 @@
 	"max_epoch": 20,
 	"epochs_no_eval": 0, 
 	"patience": 5,
-    "batch_size": 8,
+    "batch_size": 16,
 	"is_model_tuning": true,
 	
     "input_len": 80,
