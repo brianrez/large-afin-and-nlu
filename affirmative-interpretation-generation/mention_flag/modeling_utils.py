@@ -33,12 +33,12 @@ from packaging import version
 from torch import Tensor, nn
 from torch.nn import CrossEntropyLoss, Identity
 
-from .activations import get_activation
-from .configuration_utils import PretrainedConfig
-from .dynamic_module_utils import custom_object_save
-from .generation import GenerationConfig, GenerationMixin
-from .integrations import PeftAdapterMixin, deepspeed_config, is_deepspeed_zero3_enabled
-from .pytorch_utils import (  # noqa: F401
+from transformers.activations import get_activation
+from transformers.configuration_utils import PretrainedConfig
+from transformers.dynamic_module_utils import custom_object_save
+from transformers.generation import GenerationConfig, GenerationMixin
+from transformers.integrations import PeftAdapterMixin, deepspeed_config, is_deepspeed_zero3_enabled
+from transformers.pytorch_utils import (  # noqa: F401
     Conv1D,
     apply_chunking_to_forward,
     find_pruneable_heads_and_indices,
@@ -47,7 +47,7 @@ from .pytorch_utils import (  # noqa: F401
     prune_layer,
     prune_linear_layer,
 )
-from .utils import (
+from transformers.utils import (
     ADAPTER_SAFE_WEIGHTS_NAME,
     ADAPTER_WEIGHTS_NAME,
     CONFIG_NAME,
@@ -81,15 +81,15 @@ from .utils import (
     replace_return_docstrings,
     strtobool,
 )
-from .utils.hub import convert_file_size_to_int, get_checkpoint_shard_files
-from .utils.import_utils import (
+from transformers.utils.hub import convert_file_size_to_int, get_checkpoint_shard_files
+from transformers.utils.import_utils import (
     ENV_VARS_TRUE_VALUES,
     is_sagemaker_mp_enabled,
     is_torch_fx_proxy,
     is_torchdynamo_compiling,
 )
-from .utils.quantization_config import BitsAndBytesConfig, GPTQConfig, QuantizationMethod
-from .utils.versions import require_version_core
+from transformers.utils.quantization_config import BitsAndBytesConfig, GPTQConfig, QuantizationMethod
+from transformers.utils.versions import require_version_core
 
 
 XLA_USE_BF16 = os.environ.get("XLA_USE_BF16", "0").upper()
