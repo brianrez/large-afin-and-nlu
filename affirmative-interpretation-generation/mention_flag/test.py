@@ -234,7 +234,7 @@ dev_output = [output.strip() for output in dev_output]
 print("dev_output: {}".format(len(dev_output)))
 import pickle
 # step -test: write the predicted results
-with open("./outputs_conda/train.pkl", 'wb') as f:
+with open("./outputs_conda/test.pkl", 'wb') as f:
     pickle.dump(dev_output, f)
 
 '''
