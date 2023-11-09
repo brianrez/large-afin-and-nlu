@@ -18,7 +18,7 @@ from transformers import (
 )
 
 from model import AFINGenerator
-from data import AFINDataset
+from data import AFINDataset, collate_
 from config import Config
 import time
 import utils
@@ -211,7 +211,7 @@ for epoch in range(params.max_epoch):
 dev_output = []
 dev_ids    = []
 
-dev_loader = DataLoader(dev_dataset, batch_size=params.batch_size, shuffle=False) 
+dev_loader = DataLoader(dev_dataset, batch_size=params.batch_size, shuffle=False, collate_fn=collate_)
 dev_loss = 0
 for batch_idx, batch in enumerate(dev_loader):                     
     #model.eval()
