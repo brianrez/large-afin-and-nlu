@@ -47,6 +47,7 @@ class AFINDataset(Dataset):
         not_found = 0
         not_found_index = []
         # for data_dict in data_list[:10]:
+        print(len(data_list))
         for i in range(len(data_list)):
         # for i in range(10):
             data_dict = data_list[i]
