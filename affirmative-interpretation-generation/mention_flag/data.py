@@ -53,10 +53,9 @@ class AFINDataset(Dataset):
             input_ = "sentence: {}".format(data_dict["sentence"].strip())                
             # input_ = input_ + "neg cues:"
             # input_ = input_ + ", ".join(self.negations)
-
-            # for test purpose
-            #  target_ = "<pad>affirmative_interpretation: {}".format( data_dict[self.target_attribute_name].strip() )
-            #  target_ = target_
+            # target_ = "<pad>affirmative_interpretation: {}".format( data_dict[self.target_attribute_name].strip() )
+            target_ = "<pad>affirmative_interpretation: {}".format(" ")
+            target_ = target_
     
             # tokenize inputs
             tokenized_inputs = self.tokenizer.batch_encode_plus(
