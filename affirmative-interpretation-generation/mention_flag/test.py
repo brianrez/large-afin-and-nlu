@@ -97,6 +97,7 @@ train_dataset_gold = AFINDataset(tokenizer, train_data, params, target_attribute
 # train_size = len(train_dataset_gold)
 # print("\n train size: {}".format(train_size))
 dev_data   = utils.read_data(params.data_path["dev"])
+print("\n dev size: {}".format(len(dev_data)))
 dev_dataset   = AFINDataset(tokenizer, dev_data, params, target_attribute_name)
 dev_size   = len(dev_dataset)
 print("\n dev size: {}".format(dev_size))
@@ -230,7 +231,7 @@ for batch_idx, batch in enumerate(dev_loader):
 
 dev_output = [output.strip() for output in dev_output]
 # final_output = [dev_output, dev_ids]
-
+print("dev_output: {}".format(len(dev_output)))
 import pickle
 # step -test: write the predicted results
 with open("./outputs_conda/val.pkl", 'wb') as f:
