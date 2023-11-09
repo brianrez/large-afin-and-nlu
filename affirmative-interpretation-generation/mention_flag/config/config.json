@@ -25,7 +25,7 @@
 	"epochs_no_eval": 0, 
 	"patience": 5,
     "batch_size": 16,
-	"is_model_tuning": true,
+	"is_model_tuning": false,
 	
     "input_len": 80,
     "target_len": 50,
