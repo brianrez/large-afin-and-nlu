@@ -61,7 +61,7 @@ class AFINDataset(Dataset):
     
             self.inputs.append(tokenized_inputs)
             self.targets.append(tokenized_targets)
-            self.ids.append(data_dict["ids"])     
+            # self.ids.append(data_dict["ids"])     
             
 
 class NewDataset(Dataset):
