@@ -44,7 +44,7 @@
     
     "data_path": {
 		"train": "./data/afin/train.jsonl",
-		"dev": "./data/condaqa/test_uniques.jsonl",
+		"dev": "temp.jsonl",
 		"test": "./data/afin/test.jsonl"
 	},
     "output_path": {
