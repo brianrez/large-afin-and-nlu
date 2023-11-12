@@ -44,7 +44,7 @@
     
     "data_path": {
 		"train": "./data/afin/train.jsonl",
-		"dev": "temp.jsonl",
+		"dev": "./data/afin/dev.jsonl",
 		"test": "./data/afin/test.jsonl"
 	},
     "output_path": {
