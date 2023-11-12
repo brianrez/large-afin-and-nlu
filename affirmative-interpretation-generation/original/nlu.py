@@ -40,23 +40,27 @@ def mo_par(path, destination, key):
 
     for i in range(len(val)):
         sent = val[i][key]
-        val[i][key] = sent + "Affirmative Interpretation: " + affirs[i]
+        val[i][key] = sent + " " + affirs[i]
     
     jsonl().write(destination + "/val.jsonl", val)
 
     print("val done")
     
 
-# mo_par("./data/commonsenseqa", "./newdata/commonsenseqa/mo", "question")
-# print("commonsenseqa done")  
-# mo_par("./data/wsc", "./newdata/wsc/mo", "text")
-# print("wsc done")
-# mo_par("./data/wic", "./newdata/wic/mo", "sentence1")
-# mo_par("./newdata/wic/mo", "./newdata/wic/mo", "sentence2")
-# print("wic done")
+mo_par("./data/commonsenseqa", "./newdata/commonsenseqa/mo", "question")
+print("commonsenseqa done")  
+
+mo_par("./data/wsc", "./newdata/wsc/mo", "text")
+print("wsc done")
+
+mo_par("./data/wic", "./newdata/wic/mo", "sentence1")
+mo_par("./newdata/wic/mo", "./newdata/wic/mo", "sentence2")
+print("wic done")
+
 mo_par("./data/stsb", "./newdata/stsb/mo", "text_a")
-mo_par("./newdata/stsb/", "./newdata/stsb/mo", "text_b")
+mo_par("./newdata/stsb/mo", "./newdata/stsb/mo", "text_b")
 print("stsb done")
+
 mo_par("./data/qnli", "./newdata/qnli/mo", "hypothesis")
-mo_par("./newdata/qnli", "./newdata/qnli/mo", "premise")
+mo_par("./newdata/qnli/mo", "./newdata/qnli/mo", "premise")
 print("qnli done")
