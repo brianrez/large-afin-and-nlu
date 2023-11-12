@@ -47,20 +47,38 @@ def mo_par(path, destination, key):
     print("val done")
     
 
+import requests
+
 mo_par("./data/commonsenseqa", "./newdata/commonsenseqa/mo", "question")
 print("commonsenseqa done")  
 
+requests.post("https://ntfy.sh/mhrnlpmodels",
+    data="Chameleon MO. Commonsenseqa Done!".encode(encoding='utf-8'))
+
 mo_par("./data/wsc", "./newdata/wsc/mo", "text")
 print("wsc done")
+
+requests.post("https://ntfy.sh/mhrnlpmodels",
+    data="Chameleon MO. WSC Done!".encode(encoding='utf-8'))
 
 mo_par("./data/wic", "./newdata/wic/mo", "sentence1")
 mo_par("./newdata/wic/mo", "./newdata/wic/mo", "sentence2")
 print("wic done")
 
+requests.post("https://ntfy.sh/mhrnlpmodels",
+    data="Chameleon MO. WIC Done!".encode(encoding='utf-8'))
+
 mo_par("./data/stsb", "./newdata/stsb/mo", "text_a")
 mo_par("./newdata/stsb/mo", "./newdata/stsb/mo", "text_b")
 print("stsb done")
 
+requests.post("https://ntfy.sh/mhrnlpmodels",
+    data="Chameleon MO. STSB Done!".encode(encoding='utf-8'))
+
+
 mo_par("./data/qnli", "./newdata/qnli/mo", "hypothesis")
 mo_par("./newdata/qnli/mo", "./newdata/qnli/mo", "premise")
 print("qnli done")
+
+requests.post("https://ntfy.sh/mhrnlpmodels",
+    data="Chameleon MO. QNLI Done!".encode(encoding='utf-8'))
