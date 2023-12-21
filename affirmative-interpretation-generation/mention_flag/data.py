@@ -36,6 +36,7 @@ class AFINDataset(Dataset):
         self._process(data_list)
   
     def __len__(self):
+        # print(len(self.inputs))
         return len(self.inputs)
         # return 10
     
@@ -45,9 +46,8 @@ class AFINDataset(Dataset):
 
     def _process(self, data_list):
         not_found = 0
-        not_found_index = []
+        not_found_index = []  
         # for data_dict in data_list[:10]:
-        print(len(data_list))
         for i in range(len(data_list)):
         # for i in range(10):
             data_dict = data_list[i]
@@ -97,14 +97,13 @@ class AFINDataset(Dataset):
                     break
             
             if not found:
-                mention_flag_matrix = torch.zeros((1, 50, 80))
-                self.original_cues.append([])
-                self.mention_flags.append(mention_flag_matrix[0])
-                # not_found_index.append(i)
+                # mention_flag_matrix = torch.zeros((1, 50, 80))
+                # self.original_cues.append([])
+                # self.mention_flags.append(mention_flag_matrix[0])
+                not_found_index.append(i)
                 not_found += 1
                 # discarded out of the dataset 
-            # if found:
-            if True:
+            if found:
                 self.inputs.append(tokenized_inputs)
                 self.targets.append(tokenized_targets)
         # print(f"not found: {not_found}")

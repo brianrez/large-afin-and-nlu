@@ -1,5 +1,6 @@
+from json import decoder
 import torch
-# implements three value mention flags definition. Needs more testing, but some debugging has been already done.
+
 from copy import deepcopy
 def mention_flag(
     input_ids: torch.Tensor,
@@ -155,7 +156,6 @@ def find_index_sublist(init_list, sub_list):
     """
     init_list_ = deepcopy(init_list)
     sub_list_ = deepcopy(sub_list)
-    
     # init_list_ = init_list.copy()
     # sub_list_ = sub_list.copy()
     index = 0
@@ -195,16 +195,19 @@ def pretty_mf_printer(input_ids, decoder_id, mention_flag_matrix):
 
     input_ids_ = input_ids
     decoder_id_ = decoder_id
-
+    print("decoder_id_:", decoder_id_)
+    print(len(decoder_id_))
     mention_flag_matrix = mention_flag_matrix.clone().tolist()
+
 
     dict_ = {}
     dict_["input_ids"] = input_ids_
     for i in range(len(decoder_id_)):
-        dict_[decoder_id_[i]] = mention_flag_matrix[i]
+        dict_[decoder_id_[i] + str(i)] = mention_flag_matrix[i]
 
     from pandas import DataFrame as df
     data = df(dict_)
+    print(data.shape)
     print(data)
 
     return None
@@ -217,18 +220,19 @@ tokenizer = T5Tokenizer.from_pretrained("t5-large")
 
 
 input_sentence = "Hello this is undamaged"
-output_sentence = "<pad>hey I un am widely here and nothing"
+output_sentence = "<pad> I un am widely here and unharmed here do not like"
 input_id = tokenizer(input_sentence, return_tensors="pt")['input_ids']
 decoder_id = tokenizer(output_sentence, return_tensors="pt")['input_ids']
+print(decoder_id)
 orig_cue = tokenizer("undamaged")['input_ids'][:-1]
-list_cues = tokenizer(["unwidely", "undamaged", "unharmed", "refused", "nothing"])['input_ids']
+orig_cue = [orig_cue]
+list_cues = tokenizer(["not", "n't"])['input_ids']
 list_cues = [l[:-1] for l in list_cues]
+
 mentionflag = mention_flag(input_id, decoder_id, orig_cue, list_cues)
+print(mentionflag.shape)
 
 input_id = [f"{id} ({tokenizer.decode([id])})" for id in input_id[0]]
 decoder_id = [f"{id} ({tokenizer.decode([id])})" for id in decoder_id[0]]
 pretty_mf_printer(input_id, decoder_id, mentionflag[0])
-
-    
-print(find_neg([1, 2, 3, 4, 5, 5, 6], [[1, 2, 3], [4, 5, 6], [6, 7], [5, 6]]))
 '''
