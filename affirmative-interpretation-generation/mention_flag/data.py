@@ -28,6 +28,10 @@ class AFINDataset(Dataset):
         self.negation_ids = [l[:-1] for l in self.negation_ids]
         self.negation_dict = {}
 
+        self.limited_negation_ids = ['not']
+        self.limited_negation_ids = tokenizer(self.limited_negation_ids)['input_ids']
+        self.limited_negation_ids = [l[:-1] for l in self.limited_negation_ids]
+
         self.original_cues = []
         for i in range(len(self.negations)):
             self.negation_dict[self.negations[i]] = self.negation_ids[i]
@@ -91,7 +95,7 @@ class AFINDataset(Dataset):
                     # tokenized_targets_ = torch.tensor([tokenized_targets["input_ids"].clone().tolist()])
                     tokenized_inputs_ = tokenized_inputs["input_ids"].clone()
                     tokenized_targets_ = tokenized_targets["input_ids"].clone()
-                    mention_flag_matrix = mention_flag(tokenized_inputs_, tokenized_targets_, list([negation_cue_ids]), self.negation_ids)
+                    mention_flag_matrix = mention_flag(tokenized_inputs_, tokenized_targets_, list([negation_cue_ids]), self.limited_negation_ids)
                     self.mention_flags.append(mention_flag_matrix[0])
                     found = True
                     break
