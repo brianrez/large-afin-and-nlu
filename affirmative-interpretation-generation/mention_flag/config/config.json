@@ -7,7 +7,7 @@
 	
 	
 	"with_weak_labels": true,
-	"large_afin_path": "./data/large-afin/large-afin-extra.jsonl",
+	"large_afin_path": "./data/large-afin/large-afin.jsonl",
 	"blended_training": true,
 	"blended_start_epoch": 2, 
 	"blended_end_epoch": 7, 
@@ -43,13 +43,13 @@
 	            "large": "t5-large"},       
     
     "data_path": {
-		"train": "./data/afin/train-extra.jsonl",
-		"dev": "./data/afin/dev-extra.jsonl",
-		"test": "./data/afin/test-extra.jsonl"
+		"train": "./data/afin/train.jsonl",
+		"dev": "./data/afin/dev.jsonl",
+		"test": "./data/afin/test.jsonl"
 	},
     "output_path": {
 		"dev": "./output/dev/output_dev.jsonl",
 		"test": "./output/test/output_test.jsonl"		 
 	},
-	"best_model_path": "./model/fine-tuned/T5-large/best_model.bin"
+	"best_model_path": "./model/fine-tuned/T5-large/best_model2.bin"
   }
