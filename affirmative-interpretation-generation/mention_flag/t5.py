@@ -2225,7 +2225,7 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
                 input_ids,
                 decoder_start_token_id=decoder_start_token_id,
                 bos_token_id=bos_token_id,
-                **model_kwargs,
+                model_kwargs=model_kwargs,
             )
 
             if "encoder_outputs" not in model_kwargs or not isinstance(
