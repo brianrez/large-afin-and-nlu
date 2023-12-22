@@ -58,8 +58,8 @@ class AFINDataset(Dataset):
             input_ = "sentence: {}".format(data_dict["sentence"].strip())                
             # input_ = input_ + "neg cues:"
             # input_ = input_ + ", ".join(self.negations)
-            #  target_ = "<pad>affirmative_interpretation: {}".format( data_dict[self.target_attribute_name].strip() )
-            target_ = "<pad>affirmative_interpretation: {}".format(" ")
+            target_ = "<pad>affirmative_interpretation: {}".format( data_dict[self.target_attribute_name].strip() )
+            # target_ = "<pad>affirmative_interpretation: {}".format(" ")
             target_ = target_
     
             # tokenize inputs
@@ -101,11 +101,11 @@ class AFINDataset(Dataset):
                     break
             
             if not found:
-                mention_flag_matrix = torch.zeros((1, 50, 80))
-                self.original_cues.append([])
-                self.mention_flags.append(mention_flag_matrix[0])
-                self.inputs.append(tokenized_inputs)
-                self.targets.append(tokenized_targets)
+                # mention_flag_matrix = torch.zeros((1, 50, 80))
+                # self.original_cues.append([])
+                # self.mention_flags.append(mention_flag_matrix[0])
+                # self.inputs.append(tokenized_inputs)
+                # self.targets.append(tokenized_targets)
                 
                 not_found_index.append(i)
                 not_found += 1
