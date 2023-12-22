@@ -36,8 +36,9 @@ def mention_flag(
         if index_cue is None:
             # print(original_cue)
             # print(input_ids_)
-            raise Exception("original cue should be in the input_ids.")
-
+            # raise Exception("original cue should be in the input_ids.")
+            continue
+        
         for k in range(input_ids_len):
             if k != index_cue + len(original_cue) - 1:
                 continue
