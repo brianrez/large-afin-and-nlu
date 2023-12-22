@@ -104,6 +104,8 @@ class AFINDataset(Dataset):
                 mention_flag_matrix = torch.zeros((1, 50, 80))
                 self.original_cues.append([])
                 self.mention_flags.append(mention_flag_matrix[0])
+                self.inputs.append(tokenized_inputs)
+                self.targets.append(tokenized_targets)
                 
                 not_found_index.append(i)
                 not_found += 1
