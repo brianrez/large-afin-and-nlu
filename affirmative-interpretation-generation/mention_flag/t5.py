@@ -2219,7 +2219,7 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
             model_kwargs = self._prepare_encoder_decoder_kwargs_for_generation(
                 input_ids, model_kwargs
             )
-            print(model_kwargs)
+            print(model_kwargs.keys())
             # set input_ids as decoder_input_ids
             input_ids = self._prepare_decoder_input_ids_for_generation(
                 input_ids,
