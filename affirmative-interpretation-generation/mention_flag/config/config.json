@@ -51,5 +51,5 @@
 		"dev": "./output/dev/output_dev.jsonl",
 		"test": "./output/test/output_test.jsonl"		 
 	},
-	"best_model_path": "./model/fine-tuned/T5-large/best_model2.bin"
+	"best_model_path": "./model/fine-tuned/T5-large/best_model.bin"
   }

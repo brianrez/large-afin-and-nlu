@@ -101,9 +101,10 @@ class AFINDataset(Dataset):
                     break
             
             if not found:
-                # mention_flag_matrix = torch.zeros((1, 50, 80))
-                # self.original_cues.append([])
-                # self.mention_flags.append(mention_flag_matrix[0])
+                mention_flag_matrix = torch.zeros((1, 50, 80))
+                self.original_cues.append([])
+                self.mention_flags.append(mention_flag_matrix[0])
+                
                 not_found_index.append(i)
                 not_found += 1
                 # discarded out of the dataset 
