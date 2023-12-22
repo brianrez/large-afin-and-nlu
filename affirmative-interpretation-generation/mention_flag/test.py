@@ -139,6 +139,6 @@ def run(init_path, save_path):
     print("Completed! Training duration: {} hours".format(elapsed_time/3600.0))
     time.strftime("%H:%M:%S", time.gmtime(elapsed_time))  
 
-run("./data/condaqa/train_uniques.jsonl", "./outputs_conda/train.pkl")
-run("./data/condaqa/dev_uniques.jsonl",   "./outputs_conda/dev.pkl"  )
+# run("./data/condaqa/train_uniques.jsonl", "./outputs_conda/train.pkl")
+run("./data/condaqa/val_uniques.jsonl",   "./outputs_conda/val.pkl"  )
 run("./data/condaqa/test_uniques.jsonl",  "./outputs_conda/test.pkl" )
