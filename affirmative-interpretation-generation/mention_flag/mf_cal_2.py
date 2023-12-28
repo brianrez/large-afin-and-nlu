@@ -236,3 +236,4 @@ print(mentionflag.shape)
 input_id = [f"{id} ({tokenizer.decode([id])})" for id in input_id[0]]
 decoder_id = [f"{id} ({tokenizer.decode([id])})" for id in decoder_id[0]]
 pretty_mf_printer(input_id, decoder_id, mentionflag[0])
+'''
