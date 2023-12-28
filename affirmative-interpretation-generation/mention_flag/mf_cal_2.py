@@ -220,14 +220,14 @@ tokenizer = T5Tokenizer.from_pretrained("t5-large")
 
 
 
-input_sentence = "Hello this is undamaged"
-output_sentence = "<pad> I un am widely here and unharmed here do not like"
+input_sentence = "I am unhappy here."
+output_sentence = "<pad> I am sad here."
 input_id = tokenizer(input_sentence, return_tensors="pt")['input_ids']
 decoder_id = tokenizer(output_sentence, return_tensors="pt")['input_ids']
 print(decoder_id)
-orig_cue = tokenizer("undamaged")['input_ids'][:-1]
+orig_cue = tokenizer("unhappy")['input_ids'][:-1]
 orig_cue = [orig_cue]
-list_cues = tokenizer(["not"])['input_ids']
+list_cues = tokenizer(["not", "don't"])['input_ids']
 list_cues = [l[:-1] for l in list_cues]
 
 mentionflag = mention_flag(input_id, decoder_id, orig_cue, list_cues)
@@ -236,4 +236,3 @@ print(mentionflag.shape)
 input_id = [f"{id} ({tokenizer.decode([id])})" for id in input_id[0]]
 decoder_id = [f"{id} ({tokenizer.decode([id])})" for id in decoder_id[0]]
 pretty_mf_printer(input_id, decoder_id, mentionflag[0])
-'''
