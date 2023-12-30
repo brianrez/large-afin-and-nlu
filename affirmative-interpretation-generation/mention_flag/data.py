@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 import re
 import pickle
 import torch
-from mf_cal_2 import find_index_sublist, mention_flag
+from mf_cal_2_or import find_index_sublist, mention_flag
 
 class AFINDataset(Dataset):
     def __init__(self, tokenizer, data_list, params, target_attribute_name="affirmative_interpretation"):
@@ -28,9 +28,9 @@ class AFINDataset(Dataset):
         self.negation_ids = [l[:-1] for l in self.negation_ids]
         self.negation_dict = {}
 
-        self.limited_negation_ids = ['not']
-        self.limited_negation_ids = tokenizer(self.limited_negation_ids)['input_ids']
-        self.limited_negation_ids = [l[:-1] for l in self.limited_negation_ids]
+        # self.limited_negation_ids = ['not']
+        # self.limited_negation_ids = tokenizer(self.limited_negation_ids)['input_ids']
+        # self.limited_negation_ids = [l[:-1] for l in self.limited_negation_ids]
 
         self.original_cues = []
         for i in range(len(self.negations)):
@@ -57,10 +57,10 @@ class AFINDataset(Dataset):
             data_dict = data_list[i]
             input_ = "sentence: {}".format(data_dict["sentence"].strip())                
             # input_ = input_ + "neg cues:"
-            # input_ = input_ + ", ".join(self.negations)
-            # target_ = "<pad>affirmative_interpretation: {}".format( data_dict[self.target_attribute_name].strip() )
-            target_ = "<pad>affirmative_interpretation: {}".format(" ")
-            target_ = target_
+            input_ = input_ + ", ".join(self.negations)
+            target_ = "<pad>affirmative_interpretation: {}".format( data_dict[self.target_attribute_name].strip() )
+            #  target_ = "<pad>affirmative_interpretation: {}".format(" ")
+            #  target_ = target_
     
             # tokenize inputs
             tokenized_inputs = self.tokenizer.batch_encode_plus(
@@ -95,7 +95,7 @@ class AFINDataset(Dataset):
                     # tokenized_targets_ = torch.tensor([tokenized_targets["input_ids"].clone().tolist()])
                     tokenized_inputs_ = tokenized_inputs["input_ids"].clone()
                     tokenized_targets_ = tokenized_targets["input_ids"].clone()
-                    mention_flag_matrix = mention_flag(tokenized_inputs_, tokenized_targets_, list([negation_cue_ids]), self.limited_negation_ids)
+                    mention_flag_matrix = mention_flag(tokenized_inputs_, tokenized_targets_, list([negation_cue_ids]), self.negation_ids)
                     self.mention_flags.append(mention_flag_matrix[0])
                     found = True
                     break

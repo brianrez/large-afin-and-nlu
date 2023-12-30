@@ -24,7 +24,7 @@ import torch
 from torch import LongTensor, nn
 from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
 from torch.utils.checkpoint import checkpoint
-from mf_cal_2 import mention_flag
+from mf_cal_2_or import mention_flag
 from transformers.activations import ACT2FN
 from transformers.file_utils import ModelOutput
 from transformers.modeling_outputs import (
@@ -1969,10 +1969,10 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
             
             last_decoded = decoder_mention_flag[:, -1, :]
             
-            number_of_ones = torch.sum(last_decoded == 1).tolist()
-
-            if number_of_ones > 0:
-                loss_scaled = loss + 4.0
+            # number_of_ones = torch.sum(last_decoded == 1).tolist()
+            number_of_twos = torch.sum(last_decoded == 2).tolist()
+            if number_of_twos > 0:
+                loss_scaled = loss * 8.0
                 loss = loss_scaled
             
             # TODO(thom): Add z_loss https://github.com/tensorflow/mesh/blob/fa19d69eafc9a482aff0b59ddd96b025c0cb207d/mesh_tensorflow/layers.py#L666
