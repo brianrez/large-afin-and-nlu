@@ -227,12 +227,12 @@ tokenizer = T5Tokenizer.from_pretrained("t5-large")
 
 
 
-input_sentence = "I do not like here."
-output_sentence = "<pad> I am not liking it here."
+input_sentence = "I hate it here."
+output_sentence = "<pad> I hate it here."
 input_id = tokenizer(input_sentence, return_tensors="pt")['input_ids']
 decoder_id = tokenizer(output_sentence, return_tensors="pt")['input_ids']
 print(decoder_id)
-orig_cue = tokenizer("not")['input_ids'][:-1]
+orig_cue = tokenizer("hate")['input_ids'][:-1]
 orig_cue = [orig_cue]
 list_cues = tokenizer(["not"])['input_ids']
 list_cues = [l[:-1] for l in list_cues]
