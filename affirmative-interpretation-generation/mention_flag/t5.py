@@ -1971,9 +1971,10 @@ class T5ForConditionalGeneration(T5PreTrainedModel):
             
             # number_of_ones = torch.sum(last_decoded == 1).tolist()
             number_of_twos = torch.sum(last_decoded == 2).tolist()
-            if number_of_twos > 0:
-                loss_scaled = loss + 4.0
-                loss = loss_scaled
+            # if number_of_twos > 0: # type: ignore
+                # loss_scaled = loss + 4.0
+                # loss = loss_scaled
+            #     pass
             
             # TODO(thom): Add z_loss https://github.com/tensorflow/mesh/blob/fa19d69eafc9a482aff0b59ddd96b025c0cb207d/mesh_tensorflow/layers.py#L666
 
