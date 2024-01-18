@@ -53,8 +53,8 @@ class AFINDataset(Dataset):
             input_ = "sentence: {}".format(data_dict["sentence"].strip())                
             input_ = input_ + ' </s>'
     
-            # target_ = "affirmative_interpretation: {}".format( data_dict[self.target_attribute_name].strip() )
-            target_ = "affirmative_interpretation: {}".format('')
+            target_ = "affirmative_interpretation: {}".format( data_dict[self.target_attribute_name].strip() )
+            #  target_ = "affirmative_interpretation: {}".format('')
             target_ = target_ + " </s>"
 
             self.orig_cues.append(origCueFinder(input_, self.negations))

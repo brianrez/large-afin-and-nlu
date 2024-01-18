@@ -28,7 +28,7 @@ class AFINGenerator(nn.Module):
             decoder_attention_mask=batch['target_mask'].to(self.device)
         )
         loss = outputs[0]
-
+        '''
         logits = outputs.logits
         preds = logits.argmax(-1)
         dec = [self.tokenizer.decode(ids) for ids in preds]
@@ -38,10 +38,9 @@ class AFINGenerator(nn.Module):
                 continue
             else:
                 if " " + batch['origCue'][i] + " " in dec[i]:
-                    print("increading loss")
-                    loss = loss + 4.0
-                
-
+                    # print("increading loss")
+                    # loss = loss + 4.0
+        '''            
         return loss
     
     def predict(self, batch):
