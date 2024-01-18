@@ -7,7 +7,7 @@
 	
 	
 	"with_weak_labels": true,
-	"large_afin_path": "./data/large-afin/large-afin-loss.jsonl",
+	"large_afin_path": "./data/large-afin/large-afin-extra.jsonl",
 	"blended_training": true,
 	"blended_start_epoch": 2, 
 	"blended_end_epoch": 7, 
@@ -43,9 +43,9 @@
 	            "large": "t5-large"},       
     
     "data_path": {
-		"train": "./data/afin/train-loss.jsonl",
-		"dev": "./data/afin/dev-loss.jsonl",
-		"test": "./data/afin/test-loss.jsonl"
+		"train": "./data/afin/train-extra.jsonl",
+		"dev": "./data/afin/dev-extra.jsonl",
+		"test": "./data/afin/test-extra.jsonl"
 	},
     "output_path": {
 		"dev": "./output/dev/output_dev.jsonl",
