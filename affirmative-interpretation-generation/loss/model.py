@@ -38,7 +38,7 @@ class AFINGenerator(nn.Module):
                 continue
             else:
                 if " " + batch['origCue'][i] + " " in dec[i]:
-                    # print("increading loss")
+                    print("increading loss")
                     loss = loss + 4.0
                 
 
